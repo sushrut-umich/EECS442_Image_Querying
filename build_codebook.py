@@ -3,6 +3,7 @@ import pdb
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
 from skimage.io import imread
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
@@ -34,7 +35,12 @@ def main():
 	allDesc = allDesc.astype(np.float)
 	pdb.set_trace()
 	codebook = KMeans(n_clusters=1000, max_iter=2, verbose=1).fit(allDesc)
-	np.save("codebook", codebook)
+	np.save("allDesc", allDesc)
+	# codebook = {'lol': allDesc}
+	# np.save("codebook", codebook)
+	with open('codebook', 'wb') as codebook_file:
+		pickle.dump(codebook, codebook_file)
+	# with open('alldesc')
 
 
 if __name__ == "__main__":
