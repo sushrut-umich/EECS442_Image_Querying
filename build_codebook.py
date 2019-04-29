@@ -15,7 +15,7 @@ def main():
 	firstFile = os.listdir(directory)[0]
 	desc = np.load(directory + firstFile)
 	# pdb.set_trace()
-	size = 50 if desc.shape[0] > 50 else desc.shape[0] - 1
+	size = 20 if desc.shape[0] > 20 else desc.shape[0] - 1
 	# pdb.set_trace()
 	desc = desc[np.random.randint(desc.shape[0], size=size), :]
 	
@@ -25,7 +25,7 @@ def main():
 	for filename in os.listdir(directory)[1:]:
 		desc = np.load(directory + filename)
 		if desc.size > 3:
-				size = 50 if desc.shape[0] > 50 else desc.shape[0] - 1
+				size = 20 if desc.shape[0] > 20 else desc.shape[0] - 1
 				desc = desc[np.random.randint(desc.shape[0], size=size), :]
 				allDesc += desc.tolist()
 		# pdb.set_trace()
@@ -33,7 +33,7 @@ def main():
 	allDesc = np.vstack(allDesc)
 	allDesc = allDesc.astype(np.float)
 	pdb.set_trace()
-	codebook = KMeans(n_clusters=5000, max_iter=3, verbose=1).fit(allDesc)
+	codebook = KMeans(n_clusters=1000, max_iter=2, verbose=1).fit(allDesc)
 	np.save("codebook", codebook)
 
 
