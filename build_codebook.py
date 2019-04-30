@@ -13,27 +13,32 @@ from sklearn.svm import SVC
 directory = 'sift/'
 
 def main():
-	firstFile = os.listdir(directory)[0]
+	file_list = os.listdir(directory)
+	file_list.sort()
+	# pdb.set_trace()
+	firstFile = file_list[0]
 	desc = np.load(directory + firstFile)
 	# pdb.set_trace()
-	size = 20 if desc.shape[0] > 20 else desc.shape[0] - 1
+	size = 20 #if desc.shape[0] > 20 else desc.shape[0] - 1
 	# pdb.set_trace()
 	desc = desc[np.random.randint(desc.shape[0], size=size), :]
 	
 	allDesc = desc.tolist()
 	# pdb.set_trace()
 
-	for filename in os.listdir(directory)[1:]:
+	for filename in file_list[1:]:
 		desc = np.load(directory + filename)
-		if desc.size > 3:
-				size = 20 if desc.shape[0] > 20 else desc.shape[0] - 1
+		if desc.size > 3 and desc.shape[0] >= 20:
+				size = 20 #if desc.shape[0] > 20 else desc.shape[0] - 1
 				desc = desc[np.random.randint(desc.shape[0], size=size), :]
 				allDesc += desc.tolist()
+		else:
+			print(filename)
 		# pdb.set_trace()
 
 	allDesc = np.vstack(allDesc)
 	allDesc = allDesc.astype(np.float)
-	pdb.set_trace()
+	# pdb.set_trace()
 	codebook = KMeans(n_clusters=1000, max_iter=2, verbose=1).fit(allDesc)
 	np.save("allDesc", allDesc)
 	# codebook = {'lol': allDesc}
